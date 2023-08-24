@@ -1,0 +1,6 @@
+# -f https://data.pyg.org/whl/torch-1.10.0+cu102.html
+# -f https://data.pyg.org/whl/torch-1.10.0+cu111.html
+python-dotenv
+mlflow
+opencv-python
+pytorch-lightning
