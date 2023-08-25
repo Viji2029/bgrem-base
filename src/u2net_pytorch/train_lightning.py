@@ -112,8 +112,7 @@ class U2NetLightning(pl.LightningModule):
         d0, d1, d2, d3, d4, d5, d6 = self(inputs)
         loss2, loss = self.muti_bce_loss_fusion(d0, d1, d2, d3, d4, d5, d6, labels)
         self.log("train_loss_pl", loss)
-        self.logger[0].log_metrics({"train_loss": float(loss.cpu().detach().numpy())})
-        self.logger[1].log_metrics({"train_loss": float(loss.cpu().detach().numpy())})
+        self.logger.log_metrics({"train_loss": float(loss.cpu().detach().numpy())})
         # self.logger.log_image(key="true labels", images = list(d0))
         # wandb.log('train_loss', loss)
         return loss
@@ -129,14 +128,10 @@ class U2NetLightning(pl.LightningModule):
 
         self.log("val_loss_pl", loss2)
         self.log("val_mae_pl", val_mae)
-        self.logger[0].log_metrics(
+        self.logger.log_metrics(
             {"val_loss": float(loss2.cpu().detach().numpy()), "val_mae": float(val_mae.cpu().detach().numpy())}
         )
-        self.logger[1].log_metrics(
-            {"val_loss": float(loss2.cpu().detach().numpy()), "val_mae": float(val_mae.cpu().detach().numpy())}
-        )
-        self.logger[0].log_image(key="true val labels", images=list(labels * 255))
-        self.logger[0].log_image(key="predicted labels", images=list(torch.sigmoid(d0) * 255))
+        self.logger.log_image(key="true val labels", images=list(labels * 255))
         return loss2
 
 
