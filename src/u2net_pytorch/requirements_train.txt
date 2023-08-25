@@ -4,3 +4,4 @@ python-dotenv
 mlflow
 opencv-python
 pytorch-lightning
+wandb

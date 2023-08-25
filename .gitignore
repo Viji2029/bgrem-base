@@ -1,3 +1,12 @@
 .DS_STORE
-**/wandb
 **/*.pyc
+
+# LOGGERS
+**/wandb
+**/mlflow
+**/mlruns
+
+# OUTPUTS
+**/outputs
+**/*.ckpt
+**/*.onnx
