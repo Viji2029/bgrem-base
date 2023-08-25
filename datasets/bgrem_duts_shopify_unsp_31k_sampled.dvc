@@ -1,0 +1,5 @@
+outs:
+- md5: 2ef33f147daa2d5786e538fea5d1385c.dir
+  size: 1003113443
+  nfiles: 20148
+  path: bgrem_duts_shopify_unsp_31k_sampled
