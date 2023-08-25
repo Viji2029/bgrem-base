@@ -32,9 +32,9 @@ class SalObjDataset(Dataset):
     def __getitem__(self, idx):
 
         image = Image.open(self.images[idx])
-        image.thumbnail((self.sz, self.sz), Image.ANTIALIAS)
+        image.thumbnail((self.sz, self.sz), Image.Resampling.LANCZOS)
         mask = Image.open(self.masks[idx]).convert("L")
-        mask.thumbnail((self.sz, self.sz), Image.ANTIALIAS)
+        mask.thumbnail((self.sz, self.sz), Image.Resampling.LANCZOS)
 
         # Experimented with flip, didn't improve results
         # if self.mode == "train":
