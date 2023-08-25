@@ -6,7 +6,9 @@ To export, run `export.py`, change paths in the file
 NOTE: For export, we need to change the model code - the model has to return `sigmoid` output
 Comments is there in `export.py` and `u2net.py` files on where to make the changes
 
-This model is currently in production, performs well but unable to still match our results on latest dataset
+This model is currently in production, performs well but unable to still match our results on latest dataset.
+
+Before running training run the command `pip uninstall -y torch_xla`
 
 ## Model
 
