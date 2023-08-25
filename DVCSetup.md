@@ -1,7 +1,7 @@
 ## DVC Setup
 
 #### To setup DVC run the following command
-`pip install dvc==2.19.0 dvc[gs]==0.0.1`
+`pip install dvc==2.19.0 dvc-gs==0.0.1`
 
 #### Add any dataset to DVC, run this comand from the root of the repository.
 `dvc add datasets/[datasets_name]`<br>
