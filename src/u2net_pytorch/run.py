@@ -48,6 +48,7 @@ if __name__ == "__main__":
     train_parser = subparsers.add_parser("train", help="train args")
     train_parser.add_argument("--name", type=str, default="", help="experiment name")
     train_parser.add_argument("--azure_job", type=bool, default=False, help="whether running as azure job")
+    train_parser.add_argument("--ablation",type=bool,default=False,help="whether doing an ablation run")
 
     train_parser.add_argument("--batch_size", type=int, default=64, help="batch size")
     train_parser.add_argument("--lr", type=float, default=0.01, help="learning rate")
