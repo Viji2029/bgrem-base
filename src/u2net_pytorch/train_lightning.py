@@ -12,11 +12,15 @@ import torch.nn.functional as F
 import torchvision
 from data import SalObjDataset
 from model.u2net import U2NET_full, U2NET_lite
+import PIL
 from PIL import Image
 from pytorch_lightning.loggers import WandbLogger
 from torch.utils.data import DataLoader, Dataset
 
 # train_config = namedtuple('TrainConfig', 'train_base_path val_base_path batch_size epochs lr')
+
+if not hasattr(PIL.Image, 'Resampling'):  # Pillow<9.0
+    PIL.Image.Resampling = PIL.Image
 
 
 class U2NetLightning(pl.LightningModule):
@@ -27,10 +31,23 @@ class U2NetLightning(pl.LightningModule):
 
         self.bce_loss = nn.BCEWithLogitsLoss(size_average=True)
         self.mae_loss = torch.nn.L1Loss()
+        #print(self.cfg["ablation"])
 
     def prepare_data(self):
-        self.train_dataset = SalObjDataset(base_path=self.cfg["train_base_path"], mode="train", sz=320, rc=288)
-        self.val_dataset = SalObjDataset(base_path=self.cfg["val_base_path"], mode="val", sz=320)
+        if self.cfg["ablation"]:
+            print("Doing an ablation run")
+            n_samples_train = 50
+            n_samples_val= 10
+            
+        else:
+            print("Training in progress")
+            n_samples_train = None
+            n_samples_val=None
+            
+
+               
+        self.train_dataset = SalObjDataset(base_path=self.cfg["train_base_path"], mode="train", sz=320, rc=288,n_samples=n_samples_train)
+        self.val_dataset = SalObjDataset(base_path=self.cfg["val_base_path"], mode="val", sz=320,n_samples=n_samples_val)
 
     def forward(self, x):
         return self.model(x)
