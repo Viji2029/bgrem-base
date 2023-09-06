@@ -20,6 +20,7 @@ def train(args):
 
     print("Train: ", glob.glob(args.train_base_path + "/*"))
     print("Val: ", glob.glob(args.val_base_path + "/*"))
+    print("Ablation : ", args.ablation)
 
     config = vars(args)
 
@@ -39,6 +40,7 @@ def train(args):
     u2net = U2NET_full()
     # u2net = U2NET_lite()
     print("Call Lightning")
+
     pl_model = U2NetLightning(config, u2net)
 
     # checkpoint_path = 'u2net_epoch=0125_train_loss=0.21_val_loss=0.08_val_mae=0.0171.ckpt'
