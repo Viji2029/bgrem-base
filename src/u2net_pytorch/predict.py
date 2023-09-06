@@ -8,6 +8,7 @@ import numpy as np
 import onnxruntime
 import PIL
 from PIL import Image
+import wandb
 from tqdm import tqdm
 
 IMG_SZ = 320
@@ -19,6 +20,7 @@ if not hasattr(PIL.Image, 'Resampling'):  # Pillow<9.0
     PIL.Image.Resampling = PIL.Image
 
 
+## function not used
 def image_resize(image, width=None, height=None, inter=cv2.INTER_AREA):
     dim = None
     (h, w) = image.shape[:2]
@@ -33,6 +35,7 @@ def image_resize(image, width=None, height=None, inter=cv2.INTER_AREA):
     resized = cv2.resize(image, dim, interpolation=inter)
     return resized
 
+# function not used
 
 # dont remember right now, but not being used
 def preprocessImage(img):
@@ -179,5 +182,15 @@ def predict(args):
         cv2.imwrite(dest_fpath, bg_removed)
         dest_fpath = os.path.join(
             out_dir, ".".join(f.split("/")[-1].split(".")[:-1]) + "_alpha.png"
-        )  # TODO: replace with Path
+        ) 
+        
+        # TODO: replace with Path
         cv2.imwrite(dest_fpath, alpha)
+
+
+        ## logging images
+        wandb.init(project="Experimenting",name = "Expt1")
+      
+        wandb.log({"inputimage": wandb.Image(og_img)})
+        wandb.log({"predicted_mask": wandb.Image(alpha)})
+        wandb.log({"Predicted_BGRemoved_mask": wandb.Image(bg_removed)})
