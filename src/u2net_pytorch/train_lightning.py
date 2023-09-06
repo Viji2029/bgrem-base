@@ -140,6 +140,7 @@ class U2NetLightning(pl.LightningModule):
 
         d0, d1, d2, d3, d4, d5, d6 = self(inputs)
         loss2, loss = self.muti_bce_loss_fusion(d0, d1, d2, d3, d4, d5, d6, labels)
+       
 
         val_mae = self.mae_loss(torch.sigmoid(d0), labels)
 
@@ -149,6 +150,7 @@ class U2NetLightning(pl.LightningModule):
             {"val_loss": float(loss2.cpu().detach().numpy()), "val_mae": float(val_mae.cpu().detach().numpy())}
         )
         self.logger.log_image(key="true val labels", images=list(labels * 255))
+        self.logger.log_image("val_labels", images=list((torch.sigmoid(d0)) * 255))
         return loss2
 
 

@@ -28,7 +28,7 @@ def train(args):
 
     curr_datetime = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
 
-    wandb_logger = WandbLogger(log_model="all")
+    wandb_logger = WandbLogger(project="BG_REM",name="expt_1",log_model="all")
     mlflow.pytorch.autolog()
     mlflow_logger = MLFlowLogger(experiment_name="u2net", run_name=os.getenv("RUN_NAME") or curr_datetime)
 
