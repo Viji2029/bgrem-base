@@ -20,3 +20,17 @@ Any script used for dataset preparation should be under `scripts`.
 ### Testing
 Test cases are added to `tests/SIVI-TEST`. It also contains the ideal masks for the images. Model output should be close the masks provided.
 
+
+### Added the following lines of code due to attribute error
+AttributeError: module 'PIL.Image' has no attribute 'Resampling'
+
+Added in 
+1. train_loghtning.py
+2. predict.py
+
+Ref : https://stackoverflow.com/questions/71738218/module-pil-has-not-attribute-resampling
+
+
+if not hasattr(PIL.Image, 'Resampling'):  # Pillow<9.0
+    PIL.Image.Resampling = PIL.Image
+

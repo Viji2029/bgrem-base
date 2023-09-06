@@ -8,29 +8,55 @@ import scipy
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+import PIL
+import random
 from PIL import Image
 from torch.utils.data import DataLoader, Dataset
 
+if not hasattr(PIL.Image, 'Resampling'):  # Pillow<9.0
+    PIL.Image.Resampling = PIL.Image
+
+
 
 class SalObjDataset(Dataset):
-    def __init__(self, base_path, mode, transform=None, sz=320, rc=288):
+    def __init__(self, base_path, mode, transform=None, sz=320, rc=288,n_samples=None):
         self.base_path = base_path
         self.mode = mode
+        self.n_samples = n_samples
+   
         self.sz = sz
         self.rc = rc
         self.base_names = [
             f.split("/")[-1].replace(".jpg", "") for f in glob.glob(os.path.join(self.base_path, "fg", "*.jpg"))
         ]
         print("len base names", len(self.base_names))
-        self.images = [os.path.join(self.base_path, "fg", f"{f}.jpg") for f in self.base_names]
-        self.masks = [os.path.join(self.base_path, "alpha", f"{f}.png") for f in self.base_names]
+
+        if self.n_samples is not None:
+            #print("\n"*3, self.n_samples)
+            image_names = random.sample(self.base_names,self.n_samples)
+            #print("\n"*3, len(image_names))
+            #random_idx = random.sample(range(len(self.base_names)), n_samples)
+            self.images = [os.path.join(self.base_path, "fg", f"{f}.jpg") for f in image_names]
+            self.masks = [os.path.join(self.base_path, "alpha", f"{f}.png") for f in image_names]
+
+        else:
+            self.images = [os.path.join(self.base_path, "fg", f"{f}.jpg") for f in self.base_names]
+            self.masks = [os.path.join(self.base_path, "alpha", f"{f}.png") for f in self.base_names]
+        
+       
+        
         self.transform = transform
 
     def __len__(self):
-        return len(self.base_names)
+        if self.n_samples is not None:
+            #print(self.n_samples)
+            return self.n_samples
+        else:
+            return len(self.base_names)
 
     def __getitem__(self, idx):
-
+        if self.n_samples is not None:
+            assert idx < self.n_samples
         image = Image.open(self.images[idx])
         image.thumbnail((self.sz, self.sz), Image.Resampling.LANCZOS)
         mask = Image.open(self.masks[idx]).convert("L")
