@@ -6,12 +6,17 @@ import cv2
 import matplotlib.pyplot as plt
 import numpy as np
 import onnxruntime
+import PIL
 from PIL import Image
 from tqdm import tqdm
 
 IMG_SZ = 320
 RGB_MEAN = [0.5, 0.5, 0.5]
 RGB_STD = [0.5, 0.5, 0.5]
+
+## added now
+if not hasattr(PIL.Image, 'Resampling'):  # Pillow<9.0
+    PIL.Image.Resampling = PIL.Image
 
 
 def image_resize(image, width=None, height=None, inter=cv2.INTER_AREA):
