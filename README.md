@@ -22,7 +22,7 @@ Test cases are added to `tests/SIVI-TEST`. It also contains the ideal masks for 
 
 
 ### Added the following lines of code due to attribute error
-AttributeError: module 'PIL.Image' has no attribute 'Resampling'
+<b> AttributeError: </b>  module 'PIL.Image' has no attribute 'Resampling'
 
 Added in 
 1. train_loghtning.py
